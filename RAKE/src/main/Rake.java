@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 public class Rake {
 	public static Map<String, Double> rake(String content){
-		// 其实去停用词的时候就可以得到
 		Map<String, Map<String, Integer>> graph = new HashMap<>();
 		String[] windows = content.split(",");
 		for(String window : windows) {
@@ -20,7 +19,7 @@ public class Rake {
 				}
 			}
 		}
-		Map<String, Double> wordScore = new HashMap<>(); // 单词得分
+		Map<String, Double> wordScore = new HashMap<>(); // 鍗曡瘝寰楀垎
 		for(Entry<String, Map<String, Integer>> e : graph.entrySet()) {
 			int sum = 0;
 			Map<String, Integer> countMap = e.getValue();
@@ -30,7 +29,7 @@ public class Rake {
 			String word = e.getKey();
 			wordScore.put(word, (double)sum/countMap.get(word));
 		}
-		Map<String, Double> phraseScore = new HashMap<>(); // 短语得分
+		Map<String, Double> phraseScore = new HashMap<>(); // 鐭寰楀垎
 		for(String window : windows) {
 			String[] winWords = window.split(" ");
 			double sum = 0;
@@ -44,14 +43,14 @@ public class Rake {
 	
 	
 	public static void main(String[] args) {
-		// 测试文本
+		// 娴嬭瘯鏂囨湰
 		String content = "compatibility,systems,linear constraints,set,natural numbers,criteria," + 
 				"compatibility,system,linear diophantine equations,strict inequations,nonstrict " + 
 				"inequations,upper bounds,components,minimal set,solutions,algorithms," + 
 				"minimal generating sets,solutions,systems,criteria,corresponding algorithms," + 
 				"constructing,minimal supporting set,solving,systems,systems";
 		
-		Map<String, Double> phraseScore = rake(content); // 短语得分
+		Map<String, Double> phraseScore = rake(content); // 鐭寰楀垎
 		for(Entry<String, Double> e : phraseScore.entrySet()) {
 			System.out.println(e.getKey()+"\t"+e.getValue());
 		}
