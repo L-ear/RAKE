@@ -11,11 +11,18 @@ public class Rake {
 		for(String window : windows) {
 			String[] winWords = window.split(" ");
 			for(int i = 0; i < winWords.length; ++i) {
-				for(int j = 0; j < winWords.length; ++j) {
-					if(!graph.containsKey(winWords[i])) graph.put(winWords[i], new HashMap<>());
-					Map<String, Integer> countMap = graph.get(winWords[i]);
-					int count = countMap.getOrDefault(winWords[j], 0);
+				if(!graph.containsKey(winWords[i])) graph.put(winWords[i], new HashMap<>());
+				Map<String, Integer> countMap = graph.get(winWords[i]);
+				int count = countMap.getOrDefault(winWords[i], 0);
+				countMap.put(winWords[i], count+1);
+				for(int j = 0; j < i; ++j) {
+					if(winWords[i].equals(winWords[j])) continue;
+                			countMap = graph.get(winWords[i]);
+					count = countMap.getOrDefault(winWords[j], 0);
 					countMap.put(winWords[j], count+1);
+					countMap = graph.get(winWords[j]);
+					count = countMap.getOrDefault(winWords[i], 0);
+					countMap.put(winWords[i], count+1);
 				}
 			}
 		}
